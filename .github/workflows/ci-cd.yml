@@ -47,7 +47,11 @@ jobs:
         run: npm run lint
         continue-on-error: true
 
-      # 5. Build project
+      # 5. Run tests
+      - name: 🧪 Run Tests
+        run: npm run test:run
+
+      # 6. Build project
       - name: 🏗️ Build
         run: npm run build
 
