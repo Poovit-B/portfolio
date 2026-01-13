@@ -1,5 +1,5 @@
-import { Header, Footer } from './components/layout';
-import { Hero, About, Projects, Contact } from './components/sections';
+import { Header, Footer } from "./components/layout";
+import { Hero, About, Projects, Contact } from "./components/sections";
 
 function App() {
   return (
