@@ -17,7 +17,7 @@ export const Footer = () => {
 
           {/* Copyright */}
           <div className="font-cyber text-[10px] text-text-muted tracking-wider">
-            © {currentYear} YOUR NAME. ALL RIGHTS RESERVED.
+            © {currentYear} POOVIT BANTON. ALL RIGHTS RESERVED.
           </div>
 
           {/* Social Links */}

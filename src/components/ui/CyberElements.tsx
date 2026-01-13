@@ -26,7 +26,10 @@ export const DotGrid = ({
   cols?: number;
   className?: string;
 }) => (
-  <div className={`grid gap-2 ${className}`} style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+  <div
+    className={`grid gap-2 ${className}`}
+    style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
+  >
     {Array.from({ length: rows * cols }).map((_, i) => (
       <div
         key={i}
@@ -75,19 +78,40 @@ export const HexagonFrame = ({ className = "" }: { className?: string }) => (
     strokeWidth="0.5"
   >
     <polygon points="50,2 95,27 95,73 50,98 5,73 5,27" />
-    <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" strokeDasharray="5,5" />
+    <polygon
+      points="50,10 85,30 85,70 50,90 15,70 15,30"
+      strokeDasharray="5,5"
+    />
   </svg>
 );
 
 export const CircleTarget = ({ className = "" }: { className?: string }) => (
-  <svg
-    className={`${className}`}
-    viewBox="0 0 200 200"
-    fill="none"
-  >
-    <circle cx="100" cy="100" r="95" stroke="currentColor" strokeWidth="0.5" className="text-border" />
-    <circle cx="100" cy="100" r="80" stroke="currentColor" strokeWidth="0.5" className="text-accent/30" strokeDasharray="10,5" />
-    <circle cx="100" cy="100" r="60" stroke="currentColor" strokeWidth="0.5" className="text-accent/20" />
+  <svg className={`${className}`} viewBox="0 0 200 200" fill="none">
+    <circle
+      cx="100"
+      cy="100"
+      r="95"
+      stroke="currentColor"
+      strokeWidth="0.5"
+      className="text-border"
+    />
+    <circle
+      cx="100"
+      cy="100"
+      r="80"
+      stroke="currentColor"
+      strokeWidth="0.5"
+      className="text-accent/30"
+      strokeDasharray="10,5"
+    />
+    <circle
+      cx="100"
+      cy="100"
+      r="60"
+      stroke="currentColor"
+      strokeWidth="0.5"
+      className="text-accent/20"
+    />
     {/* Tick marks */}
     {Array.from({ length: 36 }).map((_, i) => {
       const angle = (i * 10 * Math.PI) / 180;
@@ -156,4 +180,3 @@ export const GlitchText = ({
     </span>
   </span>
 );
-

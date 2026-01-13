@@ -110,9 +110,9 @@ export const Hero = () => {
 
               <div className="relative">
                 <h1 className="text-6xl md:text-8xl font-black leading-none">
-                  <span className="block text-text-primary">YOUR</span>
+                  <span className="block text-text-primary">POOVIT</span>
                   <span className="block text-gradient font-cyber tracking-wider">
-                    NAME
+                    BANTON
                   </span>
                 </h1>
 
@@ -183,9 +183,23 @@ export const Hero = () => {
                 style={{ animationDirection: "reverse" }}
               />
 
-              {/* Center Content */}
+              {/* Center Content - Profile Image */}
               <div className="absolute inset-16 bg-gradient-to-br from-card to-background rounded-full flex items-center justify-center overflow-hidden">
-                <div className="text-center">
+                {/* Profile Image - เปลี่ยน src เป็นรูปของคุณ */}
+                <img
+                  src="/profile.jpg"
+                  alt="Poovit Banton"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback ถ้าไม่มีรูป
+                    e.currentTarget.style.display = "none";
+                    e.currentTarget.nextElementSibling?.classList.remove(
+                      "hidden"
+                    );
+                  }}
+                />
+                {/* Fallback Icon */}
+                <div className="hidden text-center">
                   <div className="font-cyber text-6xl text-accent glow-text">
                     {"</>"}
                   </div>

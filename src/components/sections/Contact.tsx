@@ -1,10 +1,11 @@
-import { useState, FormEvent } from "react";
+import { useState } from "react";
+import type { FormEvent } from "react";
 import { CornerBracket, DotGrid } from "../ui/CyberElements";
 
 const contactInfo = [
-  { label: "EMAIL", value: "hello@example.com", href: "mailto:hello@example.com" },
-  { label: "GITHUB", value: "github.com/username", href: "https://github.com" },
-  { label: "LINKEDIN", value: "linkedin.com/in/username", href: "https://linkedin.com" },
+  { label: "EMAIL", value: "poovit_b@hotmail.com", href: "mailto:poovit_b@hotmail.com" },
+  { label: "GITHUB", value: "github.com/poovitbanton", href: "https://github.com/poovitbanton" },
+  { label: "LINKEDIN", value: "linkedin.com/in/poovitbanton", href: "https://linkedin.com/in/poovitbanton" },
   { label: "LOCATION", value: "Bangkok, Thailand", href: null },
 ];
 
