@@ -62,6 +62,8 @@ jobs:
       # 7. Upload Pages artifact (สำหรับ GitHub Pages)
       - name: 📄 Setup Pages
         uses: actions/configure-pages@v4
+        with:
+          enablement: true
 
       - name: 📤 Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
