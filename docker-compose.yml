@@ -1,41 +1,85 @@
-version: "3.8"
-
 services:
-  # 🌐 Web App (Portfolio)
-  web:
+  # ===================
+  # 🌐 Frontend (React)
+  # ===================
+  frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
-    container_name: portfolio-web
     ports:
-      - "8080:80"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
+      - "3000:80"
+    depends_on:
+      - backend
     networks:
       - portfolio-network
+    restart: unless-stopped
 
-  # 📊 (Optional) Nginx Status Monitor
-  # nginx-exporter:
-  #   image: nginx/nginx-prometheus-exporter:latest
-  #   container_name: nginx-exporter
-  #   ports:
-  #     - "9113:9113"
-  #   command:
-  #     - '-nginx.scrape-uri=http://web:80/nginx_status'
-  #   depends_on:
-  #     - web
-  #   networks:
-  #     - portfolio-network
+  # ===================
+  # ⚙️ Backend (Express)
+  # ===================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres123
+      - DB_NAME=portfolio
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - JWT_EXPIRES_IN=7d
+      - FRONTEND_URL=http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+
+  # ===================
+  # 🗄️ Database (PostgreSQL)
+  # ===================
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DB=portfolio
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+
+  # ===================
+  # 🔧 Adminer (Database UI) - Optional
+  # ===================
+  # Adminer (Database UI) - ใช้ port 9090
+  adminer:
+    image: adminer:latest
+    ports:
+      - "9090:8080"
+    depends_on:
+      - db
+    networks:
+      - portfolio-network
+    restart: unless-stopped
 
 networks:
   portfolio-network:
     driver: bridge
-# 📁 Volumes (ถ้าต้องการเก็บ data)
-# volumes:
-#   app-data:
 
+volumes:
+  postgres_data:
