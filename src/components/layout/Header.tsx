@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { name: "HOME", href: "#home" },
@@ -68,15 +69,18 @@ export const Header = () => {
             ))}
           </ul>
 
-          {/* Status Display */}
+          {/* Status Display & Dashboard Link */}
           <div className="hidden md:flex items-center gap-4">
             <div className="font-cyber text-[10px] text-text-muted">
               <span className="text-cyber-green">●</span> SYSTEM ONLINE
             </div>
             <div className="w-px h-4 bg-border" />
-            <div className="font-cyber text-[10px] text-text-muted">
-              v2.0.26
-            </div>
+            <Link
+              to="/dashboard"
+              className="px-3 py-1.5 border border-accent/50 font-cyber text-[10px] text-accent hover:bg-accent/10 transition-colors tracking-wider"
+            >
+              DASHBOARD
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
