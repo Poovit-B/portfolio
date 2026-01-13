@@ -1,5 +1,10 @@
 // API service for backend calls
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+// ใช้ Railway URL เป็น default สำหรับ production
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (window.location.hostname === "localhost"
+    ? "http://localhost:4000"
+    : "https://portfolio-production-b9cf.up.railway.app");
 
 // ==================
 // Types
