@@ -4,6 +4,3 @@ buildCommand = "cd backend && npm ci && npm run build"
 
 [deploy]
 startCommand = "cd backend && npm run start"
-restartPolicyType = "on_failure"
-restartPolicyMaxRetries = 10
-
