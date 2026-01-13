@@ -1,188 +1,173 @@
 import { useState, FormEvent } from "react";
-import { CornerBracket, DotGrid } from "../ui/CyberElements";
+import { PixelBox, PixelHeart, PixelArrow } from "../ui/PixelElements";
 
-const contactInfo = [
-  { label: "EMAIL", value: "hello@example.com", href: "mailto:hello@example.com" },
-  { label: "GITHUB", value: "github.com/username", href: "https://github.com" },
-  { label: "LINKEDIN", value: "linkedin.com/in/username", href: "https://linkedin.com" },
-  { label: "LOCATION", value: "Bangkok, Thailand", href: null },
+const contactOptions = [
+  { label: "EMAIL", value: "hello@poovit.dev", action: "mailto:hello@poovit.dev" },
+  { label: "GITHUB", value: "github.com/poovit", action: "https://github.com" },
+  { label: "LINKEDIN", value: "linkedin.com/in/poovit", action: "https://linkedin.com" },
+  { label: "DISCORD", value: "poovit#1234", action: null },
 ];
 
 export const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [message, setMessage] = useState("");
+  const [playerName, setPlayerName] = useState("");
+  const [playerEmail, setPlayerEmail] = useState("");
+  const [sent, setSent] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setStatus("sending");
-    
-    // Simulate sending
+    setSent(true);
     setTimeout(() => {
-      setStatus("sent");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 1500);
+      setMessage("");
+      setPlayerName("");
+      setPlayerEmail("");
+      setSent(false);
+    }, 3000);
   };
 
   return (
-    <section id="contact" className="relative py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background-secondary to-background" />
-      <div className="absolute inset-0 grid-bg opacity-20" />
+    <section id="contact" className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-background-secondary pixel-grid opacity-20" />
 
-      <div className="relative z-10 container mx-auto px-6">
-        {/* Section Header */}
-        <div className="flex items-center gap-4 mb-16">
-          <div className="font-cyber text-accent text-sm tracking-[0.3em]">03</div>
-          <div className="h-px flex-1 bg-gradient-to-r from-accent/50 to-transparent max-w-[100px]" />
-          <h2 className="font-cyber text-2xl tracking-wider">CONTACT</h2>
-          <div className="h-px flex-1 bg-gradient-to-l from-border to-transparent" />
+      <div className="relative z-10 container mx-auto px-4">
+        {/* Section Title */}
+        <div className="flex items-center gap-4 mb-12">
+          <div className="font-pixel text-[10px] text-pixel-yellow">{'>'}</div>
+          <h2 className="font-pixel text-lg text-accent">SEND_MESSAGE.EXE</h2>
+          <div className="flex-1 h-1 bg-border" style={{ backgroundImage: "repeating-linear-gradient(90deg, var(--color-border) 0 8px, transparent 8px 16px)" }} />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Left: Contact Info */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h3 className="font-cyber text-lg text-accent tracking-wider">GET IN TOUCH</h3>
-              <p className="text-text-secondary leading-relaxed max-w-md">
-                Have a project in mind or want to collaborate? 
-                Feel free to reach out. I'm always open to discussing new opportunities.
-              </p>
-            </div>
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Left: Message Form */}
+          <div>
+            <PixelBox className="bg-background">
+              <div className="flex items-center gap-2 pb-3 mb-4 border-b-2 border-border">
+                <div className="w-3 h-3 bg-pixel-red" />
+                <div className="w-3 h-3 bg-pixel-yellow" />
+                <div className="w-3 h-3 bg-accent" />
+                <span className="ml-2 font-pixel text-[8px] text-text-muted">new_message.txt</span>
+              </div>
 
-            {/* Contact Details */}
-            <div className="space-y-4">
-              {contactInfo.map((info) => (
-                <div key={info.label} className="flex items-start gap-4 group">
-                  <div className="w-2 h-2 mt-2 bg-accent/50 rotate-45 group-hover:bg-accent transition-colors" />
-                  <div>
-                    <div className="font-cyber text-[10px] text-text-muted tracking-wider">{info.label}</div>
-                    {info.href ? (
-                      <a
-                        href={info.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-text-primary hover:text-accent transition-colors"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <span className="text-text-primary">{info.value}</span>
-                    )}
+              {sent ? (
+                <div className="text-center py-12">
+                  <div className="flex justify-center gap-2 mb-4">
+                    <PixelHeart filled />
+                    <PixelHeart filled />
+                    <PixelHeart filled />
+                  </div>
+                  <div className="font-pixel text-lg text-accent mb-2">
+                    MESSAGE SENT!
+                  </div>
+                  <div className="font-retro text-xl text-text-secondary">
+                    +100 XP earned for making contact!
                   </div>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block font-pixel text-[8px] text-text-muted mb-2">
+                      {'>'} YOUR NAME
+                    </label>
+                    <input
+                      type="text"
+                      value={playerName}
+                      onChange={(e) => setPlayerName(e.target.value)}
+                      required
+                      className="w-full p-3 bg-card border-4 border-border font-retro text-lg text-text-primary 
+                               focus:outline-none focus:border-accent placeholder:text-text-muted"
+                      placeholder="Enter your name..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-pixel text-[8px] text-text-muted mb-2">
+                      {'>'} YOUR EMAIL
+                    </label>
+                    <input
+                      type="email"
+                      value={playerEmail}
+                      onChange={(e) => setPlayerEmail(e.target.value)}
+                      required
+                      className="w-full p-3 bg-card border-4 border-border font-retro text-lg text-text-primary 
+                               focus:outline-none focus:border-accent placeholder:text-text-muted"
+                      placeholder="Enter your email..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-pixel text-[8px] text-text-muted mb-2">
+                      {'>'} YOUR MESSAGE
+                    </label>
+                    <textarea
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      required
+                      rows={5}
+                      className="w-full p-3 bg-card border-4 border-border font-retro text-lg text-text-primary 
+                               focus:outline-none focus:border-accent placeholder:text-text-muted resize-none"
+                      placeholder="Type your message here..."
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4">
+                    <div className="font-pixel text-[8px] text-text-muted">
+                      CHARS: {message.length}/500
+                    </div>
+                    <button type="submit" className="pixel-btn">
+                      SEND MESSAGE
+                    </button>
+                  </div>
+                </form>
+              )}
+            </PixelBox>
+          </div>
+
+          {/* Right: Contact Options */}
+          <div className="space-y-6">
+            <div className="font-pixel text-[10px] text-text-muted">
+              {'>'} OR FIND ME AT:
+            </div>
+
+            <div className="space-y-3">
+              {contactOptions.map((option) => (
+                <a
+                  key={option.label}
+                  href={option.action || "#"}
+                  target={option.action?.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="group flex items-center p-4 bg-card border-4 border-border hover:border-accent transition-colors"
+                >
+                  <div className="flex-1">
+                    <div className="font-pixel text-[8px] text-accent">{option.label}</div>
+                    <div className="font-retro text-xl text-text-primary group-hover:text-accent transition-colors">
+                      {option.value}
+                    </div>
+                  </div>
+                  <PixelArrow direction="right" className="text-text-muted group-hover:text-accent transition-colors" />
+                </a>
               ))}
             </div>
 
-            {/* Decoration */}
-            <DotGrid rows={4} cols={8} className="opacity-30 mt-12" />
-          </div>
-
-          {/* Right: Contact Form */}
-          <div className="relative">
-            <CornerBracket position="top-left" className="absolute -top-4 -left-4 w-6 h-6" />
-            <CornerBracket position="bottom-right" className="absolute -bottom-4 -right-4 w-6 h-6" />
-
-            <form
-              onSubmit={handleSubmit}
-              className="p-6 border border-border/50 bg-card/30 backdrop-blur-sm space-y-6"
-            >
-              {/* Form Header */}
-              <div className="flex items-center gap-2 pb-4 border-b border-border/50">
-                <div className="w-3 h-3 rounded-full bg-cyber-red/50" />
-                <div className="w-3 h-3 rounded-full bg-accent/50" />
-                <div className="w-3 h-3 rounded-full bg-cyber-green/50" />
-                <span className="ml-4 font-cyber text-[10px] text-text-muted">message.new</span>
+            {/* Fun Stats */}
+            <div className="p-4 bg-card border-4 border-pixel-yellow">
+              <div className="font-pixel text-[10px] text-pixel-yellow mb-3">
+                {'>'} COMMUNICATION STATS
               </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="font-cyber text-[10px] text-text-muted tracking-wider">NAME</label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                    className="w-full px-4 py-3 bg-background border border-border/50 text-text-primary 
-                             focus:outline-none focus:border-accent/50 transition-colors
-                             placeholder:text-text-muted/50 font-mono text-sm"
-                    placeholder="John Doe"
-                  />
+              <div className="space-y-2 font-retro text-lg">
+                <div className="flex justify-between">
+                  <span className="text-text-muted">Response Time:</span>
+                  <span className="text-accent">{'<'} 24 hours</span>
                 </div>
-
-                <div className="space-y-2">
-                  <label className="font-cyber text-[10px] text-text-muted tracking-wider">EMAIL</label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                    className="w-full px-4 py-3 bg-background border border-border/50 text-text-primary 
-                             focus:outline-none focus:border-accent/50 transition-colors
-                             placeholder:text-text-muted/50 font-mono text-sm"
-                    placeholder="john@example.com"
-                  />
+                <div className="flex justify-between">
+                  <span className="text-text-muted">Messages Answered:</span>
+                  <span className="text-pixel-blue">100%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-muted">Friendship Level:</span>
+                  <span className="text-pixel-pink">MAX ♥</span>
                 </div>
               </div>
-
-              <div className="space-y-2">
-                <label className="font-cyber text-[10px] text-text-muted tracking-wider">SUBJECT</label>
-                <input
-                  type="text"
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  required
-                  className="w-full px-4 py-3 bg-background border border-border/50 text-text-primary 
-                           focus:outline-none focus:border-accent/50 transition-colors
-                           placeholder:text-text-muted/50 font-mono text-sm"
-                  placeholder="Project Inquiry"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="font-cyber text-[10px] text-text-muted tracking-wider">MESSAGE</label>
-                <textarea
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 bg-background border border-border/50 text-text-primary 
-                           focus:outline-none focus:border-accent/50 transition-colors resize-none
-                           placeholder:text-text-muted/50 font-mono text-sm"
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                className="w-full py-4 bg-accent text-background font-cyber text-xs tracking-wider
-                         hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors
-                         relative overflow-hidden group"
-              >
-                <span className="relative z-10">
-                  {status === "idle" && "SEND MESSAGE"}
-                  {status === "sending" && "TRANSMITTING..."}
-                  {status === "sent" && "MESSAGE SENT ✓"}
-                  {status === "error" && "ERROR - RETRY"}
-                </span>
-              </button>
-
-              {/* Status Indicator */}
-              <div className="flex items-center justify-center gap-2 font-cyber text-[10px] text-text-muted">
-                <span className={`w-1.5 h-1.5 ${status === "sent" ? "bg-cyber-green" : "bg-accent/50"}`} />
-                <span>
-                  {status === "idle" && "READY TO SEND"}
-                  {status === "sending" && "ESTABLISHING CONNECTION..."}
-                  {status === "sent" && "TRANSMISSION COMPLETE"}
-                  {status === "error" && "CONNECTION FAILED"}
-                </span>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

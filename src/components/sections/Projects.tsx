@@ -1,162 +1,195 @@
 import { useState } from "react";
-import { CornerBracket } from "../ui/CyberElements";
+import { PixelStar, PixelCoin, PixelArrow } from "../ui/PixelElements";
 
 const projects = [
   {
     id: 1,
-    title: "NEXUS PLATFORM",
-    category: "WEB APP",
-    description: "A comprehensive dashboard for data visualization and analytics with real-time updates.",
-    tech: ["React", "Node.js", "PostgreSQL", "WebSocket"],
-    image: "/project-1.jpg",
-    liveUrl: "#",
-    githubUrl: "#",
-    status: "DEPLOYED",
+    title: "NEXUS QUEST",
+    type: "WEB APP",
+    description: "An epic dashboard for data visualization. Real-time updates included!",
+    tech: ["React", "Node.js", "WebSocket"],
+    difficulty: "★★★★☆",
+    reward: "5000 XP",
+    status: "COMPLETED",
   },
   {
     id: 2,
-    title: "CIPHER WALLET",
-    category: "MOBILE APP",
-    description: "Secure cryptocurrency wallet with biometric authentication and multi-chain support.",
-    tech: ["React Native", "TypeScript", "Web3.js"],
-    image: "/project-2.jpg",
-    liveUrl: "#",
-    githubUrl: "#",
-    status: "LIVE",
+    title: "CRYPTO DUNGEON",
+    type: "MOBILE APP",
+    description: "Secure crypto wallet with biometric auth. Guard your treasures!",
+    tech: ["React Native", "Web3.js"],
+    difficulty: "★★★★★",
+    reward: "8000 XP",
+    status: "COMPLETED",
   },
   {
     id: 3,
-    title: "ECHO COMMERCE",
-    category: "E-COMMERCE",
-    description: "Full-featured e-commerce platform with AI-powered recommendations and inventory management.",
-    tech: ["Next.js", "Stripe", "MongoDB", "Redis"],
-    image: "/project-3.jpg",
-    liveUrl: "#",
-    githubUrl: "#",
-    status: "DEPLOYED",
+    title: "SHOP KINGDOM",
+    type: "E-COMMERCE",
+    description: "Full-featured marketplace with AI recommendations. Buy & sell!",
+    tech: ["Next.js", "Stripe", "MongoDB"],
+    difficulty: "★★★☆☆",
+    reward: "4000 XP",
+    status: "COMPLETED",
   },
   {
     id: 4,
-    title: "QUANTUM API",
-    category: "BACKEND",
-    description: "High-performance REST API with GraphQL support, serving 1M+ requests daily.",
-    tech: ["Python", "FastAPI", "Docker", "AWS"],
-    image: "/project-4.jpg",
-    liveUrl: "#",
-    githubUrl: "#",
-    status: "ACTIVE",
+    title: "API FORTRESS",
+    type: "BACKEND",
+    description: "High-performance REST API serving 1M+ requests daily. Indestructible!",
+    tech: ["Python", "FastAPI", "Docker"],
+    difficulty: "★★★★☆",
+    reward: "6000 XP",
+    status: "COMPLETED",
   },
 ];
 
 export const Projects = () => {
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState(projects[0]);
 
   return (
-    <section id="projects" className="relative py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-background" />
-      <div className="absolute inset-0 grid-bg opacity-20" />
+    <section id="projects" className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 pixel-grid opacity-10" />
 
-      <div className="relative z-10 container mx-auto px-6">
-        {/* Section Header */}
-        <div className="flex items-center gap-4 mb-16">
-          <div className="font-cyber text-accent text-sm tracking-[0.3em]">02</div>
-          <div className="h-px flex-1 bg-gradient-to-r from-accent/50 to-transparent max-w-[100px]" />
-          <h2 className="font-cyber text-2xl tracking-wider">PROJECTS</h2>
-          <div className="h-px flex-1 bg-gradient-to-l from-border to-transparent" />
+      <div className="relative z-10 container mx-auto px-4">
+        {/* Section Title */}
+        <div className="flex items-center gap-4 mb-12">
+          <div className="font-pixel text-[10px] text-pixel-yellow">{'>'}</div>
+          <h2 className="font-pixel text-lg text-accent">QUEST_LOG.DAT</h2>
+          <div className="flex-1 h-1 bg-border" style={{ backgroundImage: "repeating-linear-gradient(90deg, var(--color-border) 0 8px, transparent 8px 16px)" }} />
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
-            <div
-              key={project.id}
-              className="group relative"
-              onMouseEnter={() => setHoveredId(project.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              <div className="relative border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-accent/50">
-                {/* Corner Decorations */}
-                <CornerBracket position="top-left" className="absolute top-2 left-2 w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                <CornerBracket position="top-right" className="absolute top-2 right-2 w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                <CornerBracket position="bottom-left" className="absolute bottom-2 left-2 w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                <CornerBracket position="bottom-right" className="absolute bottom-2 right-2 w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Quest List */}
+          <div className="lg:col-span-1 space-y-3">
+            <div className="font-pixel text-[8px] text-text-muted mb-4">
+              SELECT A QUEST TO VIEW DETAILS
+            </div>
 
-                {/* Project Image Placeholder */}
-                <div className="relative h-48 bg-gradient-to-br from-background-secondary to-card overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="font-cyber text-4xl text-border/50">0{index + 1}</div>
+            {projects.map((project) => (
+              <button
+                key={project.id}
+                onClick={() => setSelectedProject(project)}
+                className={`w-full p-3 text-left border-4 transition-all ${
+                  selectedProject.id === project.id
+                    ? "bg-accent/20 border-accent"
+                    : "bg-card border-border hover:border-accent/50"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="font-pixel text-[10px] text-text-primary">
+                      {project.title}
+                    </div>
+                    <div className="font-retro text-sm text-text-muted">
+                      {project.type}
+                    </div>
                   </div>
-                  
-                  {/* Overlay on hover */}
-                  <div className={`absolute inset-0 bg-accent/10 transition-opacity duration-300 ${hoveredId === project.id ? 'opacity-100' : 'opacity-0'}`} />
-                  
-                  {/* Status Badge */}
-                  <div className="absolute top-4 right-4 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-cyber-green animate-pulse" />
-                    <span className="font-cyber text-[10px] text-cyber-green">{project.status}</span>
-                  </div>
+                  {selectedProject.id === project.id && (
+                    <PixelArrow direction="right" className="text-accent" />
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
 
-                  {/* Category */}
-                  <div className="absolute bottom-4 left-4">
-                    <span className="font-cyber text-[10px] text-text-muted tracking-wider">{project.category}</span>
+          {/* Quest Details */}
+          <div className="lg:col-span-2">
+            <div className="p-6 bg-card border-4 border-accent">
+              {/* Quest Header */}
+              <div className="flex items-start justify-between mb-6 pb-4 border-b-4 border-border">
+                <div>
+                  <div className="font-pixel text-[8px] text-accent mb-1">
+                    QUEST #{selectedProject.id.toString().padStart(3, "0")}
+                  </div>
+                  <h3 className="font-pixel text-xl text-text-primary">
+                    {selectedProject.title}
+                  </h3>
+                  <div className="font-retro text-lg text-text-muted">
+                    {selectedProject.type}
                   </div>
                 </div>
-
-                {/* Content */}
-                <div className="p-6 space-y-4">
-                  <h3 className="font-cyber text-lg text-text-primary tracking-wider group-hover:text-accent transition-colors">
-                    {project.title}
-                  </h3>
-                  
-                  <p className="text-sm text-text-secondary leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="px-2 py-1 text-[10px] font-cyber text-accent/70 border border-accent/20 bg-accent/5"
-                      >
-                        {t}
-                      </span>
-                    ))}
+                <div className="text-right">
+                  <div className="font-pixel text-[8px] text-pixel-yellow">
+                    {selectedProject.difficulty}
                   </div>
+                  <div className="font-pixel text-[10px] text-accent mt-1 flex items-center gap-1">
+                    <PixelCoin className="scale-75" />
+                    {selectedProject.reward}
+                  </div>
+                </div>
+              </div>
 
-                  {/* Links */}
-                  <div className="flex items-center gap-4 pt-4 border-t border-border/30">
-                    <a
-                      href={project.liveUrl}
-                      className="flex items-center gap-2 font-cyber text-[10px] text-text-muted hover:text-accent transition-colors"
+              {/* Quest Description */}
+              <div className="mb-6">
+                <div className="font-pixel text-[8px] text-text-muted mb-2">
+                  {'>'} MISSION BRIEFING
+                </div>
+                <p className="font-retro text-xl text-text-secondary leading-relaxed">
+                  {selectedProject.description}
+                </p>
+              </div>
+
+              {/* Tech Used */}
+              <div className="mb-6">
+                <div className="font-pixel text-[8px] text-text-muted mb-2">
+                  {'>'} REQUIRED SKILLS
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 bg-background border-2 border-accent font-pixel text-[8px] text-accent"
                     >
-                      <span className="w-1 h-1 bg-current" />
-                      LIVE DEMO
-                    </a>
-                    <a
-                      href={project.githubUrl}
-                      className="flex items-center gap-2 font-cyber text-[10px] text-text-muted hover:text-accent transition-colors"
-                    >
-                      <span className="w-1 h-1 bg-current" />
-                      SOURCE CODE
-                    </a>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Status */}
+              <div className="flex items-center justify-between pt-4 border-t-4 border-border">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-accent animate-pulse" />
+                  <span className="font-pixel text-[10px] text-accent">
+                    {selectedProject.status}
+                  </span>
+                </div>
+                <div className="flex gap-3">
+                  <button className="pixel-btn pixel-btn-secondary text-[8px]">
+                    VIEW DEMO
+                  </button>
+                  <button className="pixel-btn text-[8px]">
+                    VIEW CODE
+                  </button>
+                </div>
+              </div>
+
+              {/* Rewards Preview */}
+              <div className="mt-6 p-4 bg-background border-2 border-border">
+                <div className="font-pixel text-[8px] text-pixel-yellow mb-2">
+                  REWARDS EARNED:
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">
+                    <PixelStar />
+                    <span className="font-retro text-text-secondary">+500 REP</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <PixelCoin />
+                    <span className="font-retro text-text-secondary">+{selectedProject.reward}</span>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
         </div>
 
         {/* View All Button */}
         <div className="flex justify-center mt-12">
-          <a
-            href="#"
-            className="group relative px-8 py-4 border border-accent/50 font-cyber text-xs tracking-wider text-accent hover:bg-accent/10 transition-colors"
-          >
-            <span>VIEW ALL PROJECTS</span>
-            <span className="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
-          </a>
+          <button className="pixel-btn">
+            VIEW ALL QUESTS
+          </button>
         </div>
       </div>
     </section>

@@ -1,49 +1,65 @@
+import { PixelHeart, PixelStar, PixelCoin } from "../ui/PixelElements";
+
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative py-8 border-t border-border/30">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 border border-accent/50 rotate-45 flex items-center justify-center">
-              <span className="font-cyber text-accent text-xs -rotate-45">P</span>
-            </div>
-            <span className="font-cyber text-xs text-text-muted tracking-wider">
-              PORTFOLIO.SYS
-            </span>
+    <footer className="relative py-8 bg-background-secondary border-t-4 border-border">
+      <div className="container mx-auto px-4">
+        {/* Game Over Style */}
+        <div className="text-center mb-8">
+          <div className="font-pixel text-2xl text-accent crt-glow mb-2">
+            THANKS FOR PLAYING!
+          </div>
+          <div className="font-retro text-xl text-text-secondary">
+            You've reached the end of the demo.
+          </div>
+        </div>
+
+        {/* Stats Summary */}
+        <div className="flex justify-center gap-8 mb-8">
+          <div className="flex items-center gap-2">
+            <PixelStar />
+            <span className="font-pixel text-[10px] text-text-muted">REPUTATION: MAX</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <PixelCoin />
+            <span className="font-pixel text-[10px] text-text-muted">GOLD: 999,999</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <PixelHeart filled />
+            <span className="font-pixel text-[10px] text-text-muted">LIVES: ∞</span>
+          </div>
+        </div>
+
+        {/* Credits */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 border-t-2 border-border">
+          <div className="font-pixel text-[8px] text-text-muted">
+            © {currentYear} POOVIT BANTON. ALL RIGHTS RESERVED.
           </div>
 
-          {/* Copyright */}
-          <div className="font-cyber text-[10px] text-text-muted tracking-wider">
-            © {currentYear} YOUR NAME. ALL RIGHTS RESERVED.
-          </div>
-
-          {/* Social Links */}
           <div className="flex items-center gap-4">
             {["GITHUB", "LINKEDIN", "TWITTER"].map((social) => (
               <a
                 key={social}
                 href="#"
-                className="font-cyber text-[10px] text-text-muted hover:text-accent transition-colors tracking-wider"
+                className="font-pixel text-[8px] text-text-muted hover:text-accent transition-colors"
               >
-                {social}
+                [{social}]
               </a>
             ))}
           </div>
+
+          <div className="font-pixel text-[8px] text-text-muted flex items-center gap-2">
+            MADE WITH <PixelHeart filled className="scale-75" /> IN BANGKOK
+          </div>
         </div>
 
-        {/* Bottom Status Bar */}
-        <div className="mt-8 pt-4 border-t border-border/20 flex items-center justify-center gap-8 font-cyber text-[10px] text-text-muted/50">
-          <span>BUILD: v2.0.{currentYear}</span>
-          <span>|</span>
-          <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-cyber-green/50 animate-pulse" />
-            SYSTEM OPERATIONAL
-          </span>
-          <span>|</span>
-          <span>MADE WITH {'<'}3</span>
+        {/* Insert Coin */}
+        <div className="mt-8 text-center">
+          <div className="font-pixel text-[10px] text-accent animate-pulse">
+            INSERT COIN TO CONTINUE...
+          </div>
         </div>
       </div>
     </footer>

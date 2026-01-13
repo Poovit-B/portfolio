@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
+import { PixelHeart, PixelCoin } from "../ui/PixelElements";
 
 const navLinks = [
-  { name: "HOME", href: "#home" },
-  { name: "ABOUT", href: "#about" },
-  { name: "PROJECTS", href: "#projects" },
-  { name: "SKILLS", href: "#skills" },
-  { name: "CONTACT", href: "#contact" },
+  { name: "HOME", href: "#home", key: "H" },
+  { name: "ABOUT", href: "#about", key: "A" },
+  { name: "SKILLS", href: "#skills", key: "S" },
+  { name: "WORKS", href: "#projects", key: "W" },
+  { name: "CONTACT", href: "#contact", key: "C" },
 ];
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [score, setScore] = useState(99999);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,111 +21,86 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fun score counter
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setScore((prev) => prev + Math.floor(Math.random() * 10));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/90 backdrop-blur-md" : "bg-transparent"
+        isScrolled ? "bg-background/95" : "bg-transparent"
       }`}
     >
-      <nav className="container mx-auto px-6 py-4">
+      {/* Top Stats Bar */}
+      <div className="bg-background-secondary border-b-4 border-border py-2 px-4">
+        <div className="container mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
+              <PixelHeart filled />
+              <PixelHeart filled />
+              <PixelHeart filled />
+            </div>
+            <span className="font-pixel text-[10px] text-pixel-red">x3</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="font-pixel text-[10px] text-text-muted">SCORE:</span>
+            <span className="font-pixel text-[10px] text-pixel-yellow">{score.toLocaleString()}</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <PixelCoin />
+            <span className="font-pixel text-[10px] text-pixel-orange">x999</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Nav */}
+      <nav className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#home" className="group flex items-center gap-3">
-            <div className="relative">
-              <div className="w-10 h-10 border border-accent/50 rotate-45 group-hover:border-accent transition-colors" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-cyber text-accent text-sm font-bold">P</span>
-              </div>
+          <a href="#home" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-accent flex items-center justify-center pixel-border-accent">
+              <span className="font-pixel text-background text-sm">PB</span>
             </div>
             <div className="hidden sm:block">
-              <div className="font-cyber text-xs text-accent tracking-[0.3em]">PORTFOLIO</div>
-              <div className="text-[10px] text-text-muted tracking-widest">DEVELOPER.SYS</div>
+              <div className="font-pixel text-[10px] text-accent">POOVIT.DEV</div>
+              <div className="font-retro text-sm text-text-muted">LEVEL 99 DEVELOPER</div>
             </div>
           </a>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden lg:flex items-center gap-1">
+          {/* Navigation */}
+          <ul className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <li key={link.name}>
                 <a
                   href={link.href}
-                  className={`relative px-4 py-2 font-cyber text-xs tracking-wider transition-colors ${
-                    activeSection === link.href.slice(1)
-                      ? "text-accent"
-                      : "text-text-secondary hover:text-text-primary"
-                  }`}
-                  onClick={() => setActiveSection(link.href.slice(1))}
+                  className="group px-3 py-2 font-pixel text-[10px] text-text-secondary hover:text-accent transition-colors flex items-center gap-2"
                 >
-                  {activeSection === link.href.slice(1) && (
-                    <>
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-accent" />
-                      <span className="absolute -bottom-1 left-4 right-4 h-px bg-accent/50" />
-                    </>
-                  )}
+                  <span className="text-text-muted group-hover:text-pixel-yellow">[{link.key}]</span>
                   {link.name}
                 </a>
               </li>
             ))}
           </ul>
 
-          {/* Status Display */}
-          <div className="hidden md:flex items-center gap-4">
-            <div className="font-cyber text-[10px] text-text-muted">
-              <span className="text-cyber-green">●</span> SYSTEM ONLINE
-            </div>
-            <div className="w-px h-4 bg-border" />
-            <div className="font-cyber text-[10px] text-text-muted">
-              v2.0.26
+          {/* Status */}
+          <div className="hidden lg:flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-accent animate-pulse" />
+              <span className="font-pixel text-[8px] text-accent">ONLINE</span>
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden relative w-10 h-10 flex items-center justify-center"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <div className="space-y-1.5">
-              <span
-                className={`block w-6 h-0.5 bg-accent transition-transform ${
-                  isMenuOpen ? "rotate-45 translate-y-2" : ""
-                }`}
-              />
-              <span
-                className={`block w-6 h-0.5 bg-accent transition-opacity ${
-                  isMenuOpen ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`block w-6 h-0.5 bg-accent transition-transform ${
-                  isMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                }`}
-              />
-            </div>
+          {/* Mobile Menu */}
+          <button className="md:hidden font-pixel text-[10px] text-accent px-3 py-2 pixel-border-accent">
+            MENU
           </button>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="lg:hidden mt-4 py-4 border-t border-border">
-            <ul className="space-y-2">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="block px-4 py-2 font-cyber text-xs tracking-wider text-text-secondary hover:text-accent transition-colors"
-                    onClick={() => {
-                      setActiveSection(link.href.slice(1));
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <span className="text-accent mr-2">▸</span>
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </nav>
     </header>
   );
