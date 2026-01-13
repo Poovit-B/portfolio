@@ -35,10 +35,12 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = process.env.PORT || 4000;
-  await app.listen(port);
+  
+  // Listen on 0.0.0.0 for Railway/Docker
+  await app.listen(port, '0.0.0.0');
 
-  console.log(`🚀 Server running on http://localhost:${port}`);
-  console.log(`📚 Swagger docs: http://localhost:${port}/api/docs`);
+  console.log(`🚀 Server running on port ${port}`);
+  console.log(`📚 Swagger docs: /api/docs`);
 }
 bootstrap();
 
